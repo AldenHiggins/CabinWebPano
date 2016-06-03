@@ -64,42 +64,54 @@
  		<!-- Set up the sunset GIF -->
 		set(originalHotspotName, "SunsetUI");
 		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_00020.png");
-		createGifHotspots(get(originalHotspotName), get(imageName), 460, 280, 736, 650, 1536, 0, 0, "true");
+		createGifHotspots(get(originalHotspotName), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true");
  
 		set(hotspotName2, "OtherSunsetUI");
-		createGifHotspots(get(hotspotName2), get(imageName), 460, 280, 736, 650, 1536, 0, 0, "true");
+		createGifHotspots(get(hotspotName2), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true");
 
 		<!-- Set up the visit the office GIF -->
 		set(officeHotspotName, "OfficeUI");
 		set(officeImageName, "skin/VisitOfficeRedesign/MAIN_UI_00020.png");
 		createGifHotspots(get(officeHotspotName), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true");
-
 		set(officeHotspotName2, "OfficeUI2");
 		createGifHotspots(get(officeHotspotName2), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true");
 
+		<!-- Create the watch us work GIF -->
+		set(vrHotspotName, "VRUI");
+		set(vrImageName, "skin/NewVR/VR_UI_2_00020.png");
+		createGifHotspots(get(vrHotspotName), get(vrImageName), -200, 860, 600, 600, 1536, 180, 0, "true");
+		set(vrHotspotName2, "VRUI2");
+		createGifHotspots(get(vrHotspotName2), get(vrImageName), -200, 860, 600, 600, 1536, 180, 0, "true");
+
+		<!-- Generate the arrays that will be used to animate the hotspots -->
  		set(imageNameArray[0].value, "skin/NewSunset/TIMELAPSE_UI_2_000");
  		set(imageNameArray[1].value, "skin/VisitOfficeRedesign/MAIN_UI_000");
+ 		set(imageNameArray[2].value, "skin/NewVR/VR_UI_2_000");
 
  		set(hotspotNameArray[0].value, get(originalHotspotName));
  		set(hotspotNameArray[1].value, get(officeHotspotName));
+ 		set(hotspotNameArray[2].value, get(vrHotspotName));
 
  		set(altHotspotNameArray[0].value, get(hotspotName2));
  		set(altHotspotNameArray[1].value, get(officeHotspotName2));
+ 		set(altHotspotNameArray[2].value, get(vrHotspotName2));
 
+ 		set(oneInteger, 1);
  		set(frameIndexArray[0].value, get(oneInteger));
  		set(frameIndexArray[1].value, get(oneInteger));
+ 		set(frameIndexArray[2].value, get(oneInteger));
 
  		set(maxFrameIndexArray[0].value, 45);
  		set(maxFrameIndexArray[1].value, 81);
+ 		set(maxFrameIndexArray[2].value, 43);
 
-		hotspot_animate(get(imageURLNames), get(hotspotNames), get(altHotspotNames), get(frameIndices), get(maxFrameIndices), 0);
+		hotspot_animate(0);
 	</action>
 
  	<action name="hotspot_animate">
- 		set(imageSwitchBool, %6);
+ 		set(imageSwitchBool, %1);
 
  		for (set(hotspotIndex, 0), hotspotIndex LT imageNameArray.count, inc(hotspotIndex),
-
 			set(theImageName, get(imageNameArray[get(hotspotIndex)].value));
 			set(frameIndex, get(frameIndexArray[get(hotspotIndex)].value));
 			set(maxFrameIndex, get(maxFrameIndexArray[get(hotspotIndex)].value));
@@ -144,7 +156,7 @@
 			set(imageSwitchBool, 1);
 		);
 
-		delayedcall(0.05, hotspot_animate(%1, %2, %3, %4, %5, get(imageSwitchBool)) );
+		delayedcall(0.05, hotspot_animate(get(imageSwitchBool)) );
 	</action>
 
 	<action name="createGifHotspots">
