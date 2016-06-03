@@ -62,10 +62,6 @@
 	</action>
 
 	<action name="createGifs">
-		for (set(hotspotIndex, 1), hotspotIndex LT 2, inc(hotspotIndex),
-
-		);		
-
 		<!-- Generate the hotspot name -->
 		set(hotspotName, "SunsetUI");
 		txtadd(hotspotName, get(hotspotName), 1);
@@ -105,14 +101,6 @@
 		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_000");
 		txtadd(imageName, get(imageName), 20, ".png");
 
-		<!-- Calculate the x position of the hotspot -->
-<!-- 		set(xValue, -293.4969);
-		set(addThis, 76.6);
-		set(multiplyIndex, get(1));
-		sub(multiplyIndex, 1);
-		mul(addThis, multiplyIndex);
-		add(xValue, addThis); -->
-
 		addhotspot(get(hotspotName2));
 		set(hotspot[get(hotspotName2)].url, get(imageName));
 		set(hotspot[get(hotspotName2)].ox, get(xValue));
@@ -128,7 +116,7 @@
 		set(hotspot[get(hotspotName2)].width, "613.6871");
 		set(hotspot[get(hotspotName2)].height, "613.4969");
 
-		hotspot_animate(get(hotspotName), get(hotspotName2), 1, 0);
+		hotspot_animate("skin/NewSunset/TIMELAPSE_UI_2_000", get(hotspotName), get(hotspotName2), 1, 45, 0);
 	</action>
 
 	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00001.png" visible="false" onloaded="removeplugin(get(name));" />
@@ -178,45 +166,41 @@
 	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00045.png" visible="false" onloaded="removeplugin(get(name));" />
 
  	<action name="hotspot_animate">
-	    set(theImageName, "skin/NewSunset/TIMELAPSE_UI_2_000");
+	    set(theImageName, %1);
+	    set(frameIndex, %4);
+	    set(maxFrameIndex, %5);
+	    set(imageSwitchBool, %6);
 
- 		if(%3 LT 10, trace("Got here"); txtadd(theImageName, get(theImageName), "0"););
+	    <!-- If the frame index is less than ten, add a 0 onto the image name -->
+ 		if(frameIndex LT 10, txtadd(theImageName, get(theImageName), "0"););
+		txtadd(theImageName, get(theImageName), get(frameIndex), ".png");
 
-		txtadd(theImageName, get(theImageName), %3, ".png");
-
-		trace(theImageName);
-
+		<!--
+			Determine which image is going to be visible this frame based
+			on the image switch bool
+		-->
 		set(oneVisible, "false");
 		set(twoVisible, "false");
 
-		if (%4 == 1
+		if (imageSwitchBool == 1
 		 ,
 		 set(oneVisible, "true");
-		 set(hotspot[%2].url, get(theImagename));
+		 set(imageSwitchBool, 0);
+		 set(hotspot[%3].url, get(theImageName));
 		 ,
 		 set(twoVisible, "true");
-		 set(hotspot[%1].url, get(theImagename));
+		 set(imageSwitchBool, 1);
+		 set(hotspot[%2].url, get(theImageName));
 	    );
 
-		set(hotspot[%1].visible, get(oneVisible));
-		set(hotspot[%2].visible, get(twoVisible));
+		set(hotspot[%2].visible, get(oneVisible));
+		set(hotspot[%3].visible, get(twoVisible));
 
-		set(newBool, %4);
+		<!-- Increment the frame index but cap it by the max number of frames -->
+		add(frameIndex, 1);
+		if(frameIndex GT maxFrameIndex, set(frameIndex, 1));
 
-		if (%4 == 1
-		  ,
-		  set(newBool, 0);
-		  ,
-		  set(newBool, 1);
-		);
-
-		set(newIndex, %3);
-
-		add(newIndex, 1);
-
-		if(newIndex GT 45, set(newIndex, 0));
-
-		delayedcall(0.05, hotspot_animate(%1, %2, get(newIndex), get(newBool)) );
+		delayedcall(0.05, hotspot_animate(%1, %2, %3, get(frameIndex), get(maxFrameIndex), get(imageSwitchBool)) );
 	</action> -->
 	
 	<scene name="scene_pano" title="pano" onstart="" thumburl="panos/pano.tiles/thumb.jpg" lat="" lng="" heading="">
