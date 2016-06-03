@@ -57,113 +57,68 @@
 		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
 		loadscene(get(startscene), null, MERGE);
 		if(startactions !== null, startactions() );
-		set(hotspotIndex, 45);
-		createGifs(get(hotspotIndex));
+		createGifs();
 	</action>
 
 	<action name="createGifs">
-		<!-- Generate the hotspot name -->
-		set(hotspotName, "SunsetUI");
-		txtadd(hotspotName, get(hotspotName), 1);
+ 		<!-- Generate the hotspot name -->
+		set(originalHotspotName, "SunsetUI");
+		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_00020.png");
 
+		createGifHotspots(get(originalHotspotName), get(imageName), 350, 400, 736, 577, 1536, 0, 0, "true");
+ 
+ 		<!-- Generate the hotspot name -->
+		set(hotspotName2, "OtherSunsetUI");
 		<!-- Figure out what image file we're going to get the hotspot from -->
-		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_000");
-		txtadd(imageName, get(imageName), %1, ".png");
+		createGifHotspots(get(hotspotName2), get(imageName), 350, 400, 736, 577, 1536, 0, 0, "true");
 
-		<!-- Calculate the x position of the hotspot -->
-		set(xValue, -293.4969);
-		set(addThis, 76.6);
-		set(multiplyIndex, get(1));
-		sub(multiplyIndex, 1);
-		mul(addThis, multiplyIndex);
-		add(xValue, addThis);
+		hotspot_animate("skin/NewSunset/TIMELAPSE_UI_2_000", get(originalHotspotName), get(hotspotName2), 1, 45, 0);
+	</action>
 
+	<action name="createGifHotspots">
+		set(hotspotName, %1);
+		set(imageName, %2);
+		set(xPosition, %3);
+		set(yPosition, %4);
+		set(width, %5);
+		set(height, %6);
+		set(originalCubeSize, %7);
+		set(ath, %8);
+		set(atv, %9);
+		set(visibility, %10);
+
+		<!-- Calculate the width/height of the hotspot -->
+		mul(width, 1000);
+		div(width, get(originalCubeSize));
+
+		mul(height, 1000);
+		div(height, get(originalCubeSize));
+
+		<!-- Calculate the X and Y Position of the hotspot -->
+		mul(xPosition, 1000);
+		div(xPosition, get(originalCubeSize));
+		sub(xPosition, 500);
+
+		mul(yPosition, 1000);
+		div(yPosition, get(originalCubeSize));
+		sub(yPosition, 500);
+
+		<!-- Create the hotspot -->
 		addhotspot(get(hotspotName));
 		set(hotspot[get(hotspotName)].url, get(imageName));
-		set(hotspot[get(hotspotName)].ox, get(xValue));
-		set(hotspot[get(hotspotName)].oy, "-301.3806");
-		set(hotspot[get(hotspotName)].ath, "-90");
-		set(hotspot[get(hotspotName)].atv, "0");
+		set(hotspot[get(hotspotName)].ox, get(xPosition));
+		set(hotspot[get(hotspotName)].oy, get(yPosition));
+		set(hotspot[get(hotspotName)].ath, get(ath));
+		set(hotspot[get(hotspotName)].atv, get(atv));
 		set(hotspot[get(hotspotName)].distorted, "true");
 		set(hotspot[get(hotspotName)].edge, "lefttop");
 		set(hotspot[get(hotspotName)].capture, "false");
-		set(hotspot[get(hotspotName)].visible, "true");
+		set(hotspot[get(hotspotName)].visible, get(visibility));
 		set(hotspot[get(hotspotName)].keep, "true");
 		set(hotspot[get(hotspotName)].scale, "1.0");
-		set(hotspot[get(hotspotName)].width, "613.6871");
-		set(hotspot[get(hotspotName)].height, "613.4969");
-
-		<!-- Generate the hotspot name -->
-		set(hotspotName2, "SunsetUI2");
-		txtadd(hotspotName2, get(hotspotName), 1);
-
-		<!-- Figure out what image file we're going to get the hotspot from -->
-		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_000");
-		txtadd(imageName, get(imageName), 20, ".png");
-
-		addhotspot(get(hotspotName2));
-		set(hotspot[get(hotspotName2)].url, get(imageName));
-		set(hotspot[get(hotspotName2)].ox, get(xValue));
-		set(hotspot[get(hotspotName2)].oy, "-301.3806");
-		set(hotspot[get(hotspotName2)].ath, "-90");
-		set(hotspot[get(hotspotName2)].atv, "0");
-		set(hotspot[get(hotspotName2)].distorted, "true");
-		set(hotspot[get(hotspotName2)].edge, "lefttop");
-		set(hotspot[get(hotspotName2)].capture, "false");
-		set(hotspot[get(hotspotName2)].visible, "false");
-		set(hotspot[get(hotspotName2)].keep, "true");
-		set(hotspot[get(hotspotName2)].scale, "1.0");
-		set(hotspot[get(hotspotName2)].width, "613.6871");
-		set(hotspot[get(hotspotName2)].height, "613.4969");
-
-		hotspot_animate("skin/NewSunset/TIMELAPSE_UI_2_000", get(hotspotName), get(hotspotName2), 1, 45, 0);
+		set(hotspot[get(hotspotName)].width, get(width));
+		set(hotspot[get(hotspotName)].height, get(height));
 	</action>
-
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00001.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00002.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00003.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00004.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00005.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00006.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00007.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00008.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00009.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00010.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00011.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00012.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00013.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00014.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00015.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00016.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00017.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00018.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00019.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00020.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00021.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00022.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00023.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00024.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00025.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00026.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00027.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00028.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00029.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00030.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00031.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00032.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00033.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00034.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00035.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00036.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00037.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00038.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00039.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00040.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00041.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00042.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00043.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00044.png" visible="false" onloaded="removeplugin(get(name));" />
-	<plugin url="skin/NewSunset/TIMELAPSE_UI_2_00045.png" visible="false" onloaded="removeplugin(get(name));" />
 
  	<action name="hotspot_animate">
 	    set(theImageName, %1);
