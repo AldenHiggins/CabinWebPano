@@ -61,18 +61,24 @@
 	</action>
 
 	<action name="createGifs">
- 		<!-- Generate the hotspot name -->
+ 		<!-- Set up the sunset GIF -->
 		set(originalHotspotName, "SunsetUI");
 		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_00020.png");
-
-		createGifHotspots(get(originalHotspotName), get(imageName), 350, 400, 736, 577, 1536, 0, 0, "true");
+		createGifHotspots(get(originalHotspotName), get(imageName), 460, 280, 736, 650, 1536, 0, 0, "true");
  
- 		<!-- Generate the hotspot name -->
 		set(hotspotName2, "OtherSunsetUI");
-		<!-- Figure out what image file we're going to get the hotspot from -->
-		createGifHotspots(get(hotspotName2), get(imageName), 350, 400, 736, 577, 1536, 0, 0, "true");
+		createGifHotspots(get(hotspotName2), get(imageName), 460, 280, 736, 650, 1536, 0, 0, "true");
+		<!-- hotspot_animate("skin/NewSunset/TIMELAPSE_UI_2_000", get(originalHotspotName), get(hotspotName2), 1, 45, 0); -->
 
-		hotspot_animate("skin/NewSunset/TIMELAPSE_UI_2_000", get(originalHotspotName), get(hotspotName2), 1, 45, 0);
+		<!-- Set up the visit the office GIF -->
+		set(officeHotspotName, "OfficeUI");
+		set(officeImageName, "skin/VisitOfficeRedesign/MAIN_UI_00020.png");
+		createGifHotspots(get(officeHotspotName), get(officeImageName), 160, 580, 736, 650, 1536, 0, 0, "true");
+ 
+		set(officeHotspotName2, "OfficeUI2");
+		createGifHotspots(get(officeHotspotName2), get(officeImageName), 160, 580, 736, 650, 1536, 0, 0, "true");
+		hotspot_animate("skin/VisitOfficeRedesign/MAIN_UI_000", get(officeHotspotName), get(officeHotspotName2), 1, 81, 0);
+
 	</action>
 
 	<action name="createGifHotspots">
