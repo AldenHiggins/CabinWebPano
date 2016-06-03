@@ -68,17 +68,83 @@
  
 		set(hotspotName2, "OtherSunsetUI");
 		createGifHotspots(get(hotspotName2), get(imageName), 460, 280, 736, 650, 1536, 0, 0, "true");
-		<!-- hotspot_animate("skin/NewSunset/TIMELAPSE_UI_2_000", get(originalHotspotName), get(hotspotName2), 1, 45, 0); -->
 
 		<!-- Set up the visit the office GIF -->
 		set(officeHotspotName, "OfficeUI");
 		set(officeImageName, "skin/VisitOfficeRedesign/MAIN_UI_00020.png");
-		createGifHotspots(get(officeHotspotName), get(officeImageName), 160, 580, 736, 650, 1536, 0, 0, "true");
- 
-		set(officeHotspotName2, "OfficeUI2");
-		createGifHotspots(get(officeHotspotName2), get(officeImageName), 160, 580, 736, 650, 1536, 0, 0, "true");
-		hotspot_animate("skin/VisitOfficeRedesign/MAIN_UI_000", get(officeHotspotName), get(officeHotspotName2), 1, 81, 0);
+		createGifHotspots(get(officeHotspotName), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true");
 
+		set(officeHotspotName2, "OfficeUI2");
+		createGifHotspots(get(officeHotspotName2), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true");
+
+ 		set(imageNameArray[0].value, "skin/NewSunset/TIMELAPSE_UI_2_000");
+ 		set(imageNameArray[1].value, "skin/VisitOfficeRedesign/MAIN_UI_000");
+
+ 		set(hotspotNameArray[0].value, get(originalHotspotName));
+ 		set(hotspotNameArray[1].value, get(officeHotspotName));
+
+ 		set(altHotspotNameArray[0].value, get(hotspotName2));
+ 		set(altHotspotNameArray[1].value, get(officeHotspotName2));
+
+ 		set(frameIndexArray[0].value, get(oneInteger));
+ 		set(frameIndexArray[1].value, get(oneInteger));
+
+ 		set(maxFrameIndexArray[0].value, 45);
+ 		set(maxFrameIndexArray[1].value, 81);
+
+		hotspot_animate(get(imageURLNames), get(hotspotNames), get(altHotspotNames), get(frameIndices), get(maxFrameIndices), 0);
+	</action>
+
+ 	<action name="hotspot_animate">
+ 		set(imageSwitchBool, %6);
+
+ 		for (set(hotspotIndex, 0), hotspotIndex LT imageNameArray.count, inc(hotspotIndex),
+
+			set(theImageName, get(imageNameArray[get(hotspotIndex)].value));
+			set(frameIndex, get(frameIndexArray[get(hotspotIndex)].value));
+			set(maxFrameIndex, get(maxFrameIndexArray[get(hotspotIndex)].value));
+			set(firstHotspotName, get(hotspotNameArray[get(hotspotIndex)].value));
+			set(secondHotspotName, get(altHotspotNameArray[get(hotspotIndex)].value));
+
+			<!-- If the frame index is less than ten, add a 0 onto the image name -->
+			if(frameIndex LT 10, txtadd(theImageName, get(theImageName), "0"););
+			txtadd(theImageName, get(theImageName), get(frameIndex), ".png");
+
+			<!--
+			Determine which image is going to be visible this frame based
+			on the image switch bool
+			-->
+			set(oneVisible, "false");
+			set(twoVisible, "false");
+
+			if (imageSwitchBool == 1
+			,
+			set(oneVisible, "true");
+			set(hotspot[get(secondHotspotName)].url, get(theImageName));
+			,
+			set(twoVisible, "true");
+			set(hotspot[get(firstHotspotName)].url, get(theImageName));
+			);
+
+			set(hotspot[get(firstHotspotName)].visible, get(oneVisible));
+			set(hotspot[get(secondHotspotName)].visible, get(twoVisible));
+
+			<!-- Increment the frame index but cap it by the max number of frames -->
+			add(frameIndex, 1);
+			if(frameIndex GT maxFrameIndex, set(frameIndex, 1));
+
+			set(frameIndexArray[get(hotspotIndex)].value, get(frameIndex));
+ 		);
+
+ 		<!-- Swap the image switch bool -->
+		if (imageSwitchBool == 1
+			,
+			set(imageSwitchBool, 0);
+			,
+			set(imageSwitchBool, 1);
+		);
+
+		delayedcall(0.05, hotspot_animate(%1, %2, %3, %4, %5, get(imageSwitchBool)) );
 	</action>
 
 	<action name="createGifHotspots">
@@ -125,44 +191,6 @@
 		set(hotspot[get(hotspotName)].width, get(width));
 		set(hotspot[get(hotspotName)].height, get(height));
 	</action>
-
- 	<action name="hotspot_animate">
-	    set(theImageName, %1);
-	    set(frameIndex, %4);
-	    set(maxFrameIndex, %5);
-	    set(imageSwitchBool, %6);
-
-	    <!-- If the frame index is less than ten, add a 0 onto the image name -->
- 		if(frameIndex LT 10, txtadd(theImageName, get(theImageName), "0"););
-		txtadd(theImageName, get(theImageName), get(frameIndex), ".png");
-
-		<!--
-			Determine which image is going to be visible this frame based
-			on the image switch bool
-		-->
-		set(oneVisible, "false");
-		set(twoVisible, "false");
-
-		if (imageSwitchBool == 1
-		 ,
-		 set(oneVisible, "true");
-		 set(imageSwitchBool, 0);
-		 set(hotspot[%3].url, get(theImageName));
-		 ,
-		 set(twoVisible, "true");
-		 set(imageSwitchBool, 1);
-		 set(hotspot[%2].url, get(theImageName));
-	    );
-
-		set(hotspot[%2].visible, get(oneVisible));
-		set(hotspot[%3].visible, get(twoVisible));
-
-		<!-- Increment the frame index but cap it by the max number of frames -->
-		add(frameIndex, 1);
-		if(frameIndex GT maxFrameIndex, set(frameIndex, 1));
-
-		delayedcall(0.05, hotspot_animate(%1, %2, %3, get(frameIndex), get(maxFrameIndex), get(imageSwitchBool)) );
-	</action> -->
 	
 	<scene name="scene_pano" title="pano" onstart="" thumburl="panos/pano.tiles/thumb.jpg" lat="" lng="" heading="">
 		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
