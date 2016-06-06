@@ -62,101 +62,24 @@
 
 	<action name="createGifs">
  		<!-- Set up the sunset GIF -->
-		set(originalHotspotName, "SunsetUI");
+<!-- 		set(originalHotspotName, "SunsetUI");
 		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_00020.png");
-		createGifHotspots(get(originalHotspotName), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true");
+		createGifHotspots(get(originalHotspotName), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true"); -->
  
-		set(hotspotName2, "OtherSunsetUI");
-		createGifHotspots(get(hotspotName2), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true");
+<!--  		set(hotspotName2, "OtherSunsetUI");
+		createGifHotspots(get(hotspotName2), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true"); -->
 
 		<!-- Set up the visit the office GIF -->
-		set(officeHotspotName, "OfficeUI");
+<!-- 		set(officeHotspotName, "OfficeUI");
 		set(officeImageName, "skin/VisitOfficeRedesign/MAIN_UI_00020.png");
 		createGifHotspots(get(officeHotspotName), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true");
 		set(officeHotspotName2, "OfficeUI2");
-		createGifHotspots(get(officeHotspotName2), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true");
+		createGifHotspots(get(officeHotspotName2), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true"); -->
 
 		<!-- Create the watch us work GIF -->
 		set(vrHotspotName, "VRUI");
-		set(vrImageName, "skin/NewVR/VR_UI_2_00020.png");
-		createGifHotspots(get(vrHotspotName), get(vrImageName), -200, 860, 600, 600, 1536, 180, 0, "true");
-		set(vrHotspotName2, "VRUI2");
-		createGifHotspots(get(vrHotspotName2), get(vrImageName), -200, 860, 600, 600, 1536, 180, 0, "true");
-
-		<!-- Generate the arrays that will be used to animate the hotspots -->
- 		set(imageNameArray[0].value, "skin/NewSunset/TIMELAPSE_UI_2_000");
- 		set(imageNameArray[1].value, "skin/VisitOfficeRedesign/MAIN_UI_000");
- 		set(imageNameArray[2].value, "skin/NewVR/VR_UI_2_000");
-
- 		set(hotspotNameArray[0].value, get(originalHotspotName));
- 		set(hotspotNameArray[1].value, get(officeHotspotName));
- 		set(hotspotNameArray[2].value, get(vrHotspotName));
-
- 		set(altHotspotNameArray[0].value, get(hotspotName2));
- 		set(altHotspotNameArray[1].value, get(officeHotspotName2));
- 		set(altHotspotNameArray[2].value, get(vrHotspotName2));
-
- 		set(oneInteger, 1);
- 		set(frameIndexArray[0].value, get(oneInteger));
- 		set(frameIndexArray[1].value, get(oneInteger));
- 		set(frameIndexArray[2].value, get(oneInteger));
-
- 		set(maxFrameIndexArray[0].value, 45);
- 		set(maxFrameIndexArray[1].value, 81);
- 		set(maxFrameIndexArray[2].value, 43);
-
-		hotspot_animate(0);
-	</action>
-
- 	<action name="hotspot_animate">
- 		set(imageSwitchBool, %1);
-
- 		for (set(hotspotIndex, 0), hotspotIndex LT imageNameArray.count, inc(hotspotIndex),
-			set(theImageName, get(imageNameArray[get(hotspotIndex)].value));
-			set(frameIndex, get(frameIndexArray[get(hotspotIndex)].value));
-			set(maxFrameIndex, get(maxFrameIndexArray[get(hotspotIndex)].value));
-			set(firstHotspotName, get(hotspotNameArray[get(hotspotIndex)].value));
-			set(secondHotspotName, get(altHotspotNameArray[get(hotspotIndex)].value));
-
-			<!-- If the frame index is less than ten, add a 0 onto the image name -->
-			if(frameIndex LT 10, txtadd(theImageName, get(theImageName), "0"););
-			txtadd(theImageName, get(theImageName), get(frameIndex), ".png");
-
-			<!--
-			Determine which image is going to be visible this frame based
-			on the image switch bool
-			-->
-			set(oneVisible, "false");
-			set(twoVisible, "false");
-
-			if (imageSwitchBool == 1
-			,
-			set(oneVisible, "true");
-			set(hotspot[get(secondHotspotName)].url, get(theImageName));
-			,
-			set(twoVisible, "true");
-			set(hotspot[get(firstHotspotName)].url, get(theImageName));
-			);
-
-			set(hotspot[get(firstHotspotName)].visible, get(oneVisible));
-			set(hotspot[get(secondHotspotName)].visible, get(twoVisible));
-
-			<!-- Increment the frame index but cap it by the max number of frames -->
-			add(frameIndex, 1);
-			if(frameIndex GT maxFrameIndex, set(frameIndex, 1));
-
-			set(frameIndexArray[get(hotspotIndex)].value, get(frameIndex));
- 		);
-
- 		<!-- Swap the image switch bool -->
-		if (imageSwitchBool == 1
-			,
-			set(imageSwitchBool, 0);
-			,
-			set(imageSwitchBool, 1);
-		);
-
-		delayedcall(0.05, hotspot_animate(get(imageSwitchBool)) );
+		set(vrImageName, "skin/NewVR/SpriteSheet.png");
+		createGifHotspots(get(vrHotspotName), get(vrImageName), -200, 860, 600, 600, 1536, 180, 0, "true", 600, 600, 15);
 	</action>
 
 	<action name="createGifHotspots">
@@ -170,6 +93,9 @@
 		set(ath, %8);
 		set(atv, %9);
 		set(visibility, %10);
+		set(cubeWidth, %11);
+		set(cubeHeight, %12);
+		set(frameRate, %13);
 
 		<!-- Calculate the width/height of the hotspot -->
 		mul(width, 1000);
@@ -202,6 +128,42 @@
 		set(hotspot[get(hotspotName)].scale, "1.0");
 		set(hotspot[get(hotspotName)].width, get(width));
 		set(hotspot[get(hotspotName)].height, get(height));
+		set(hotspot[get(hotspotName)].onloaded, "do_crop_animation(get(cubeWidth), get(cubeHeight), get(frameRate))");
+	</action>
+
+	<!--
+		do_crop_animation(framewidth, frameheight, framerate)
+		- animation by changing the image cropping
+		- parameters:
+		  - framewidth - the width from one frame in pixels
+		  - frameheight - the height from one frame in pixels
+		  - framerate - the animation frame rate in 'frames per second'
+		- the image can be a vertical or horizontal (or both) image-strip / sprite-sheet
+		- the action will loop automatically through all frames from left to right and top to bottom
+	-->
+	<action name="do_crop_animation">
+		<!-- add attributes to the hotspot -->
+		registerattribute(xframes, calc((imagewidth / %1) BOR 0));
+		registerattribute(yframes, calc((imageheight / %2) BOR 0));
+		registerattribute(frames, calc(xframes * yframes));
+		registerattribute(frame, 0);
+
+		set(crop, '0|0|%1|%2');
+
+		setinterval(calc('crop_anim_' + name), calc(1.0 / %3),
+			if(loaded,
+				inc(frame);
+				if(frame GE frames, if(onlastframe !== null, onlastframe() ); set(frame,0); );
+				mod(xpos, frame, xframes);
+				div(ypos, frame, xframes);
+				Math.floor(ypos);
+				mul(xpos, %1);
+				mul(ypos, %2);
+				calc(crop, xpos + '|' + ypos + '|%1|%2');
+			  ,
+				clearinterval(calc('crop_anim_' + name));
+			  );
+		  );
 	</action>
 	
 	<scene name="scene_pano" title="pano" onstart="" thumburl="panos/pano.tiles/thumb.jpg" lat="" lng="" heading="">
