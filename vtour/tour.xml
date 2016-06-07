@@ -51,6 +51,21 @@
 		design_text_shadow="1"
     />
 
+	<!-- videourl="video/Office360.mp4" -->
+    <plugin 
+		name="video"
+		url.flash="%SWFPATH%/plugins/videoplayer.swf"
+		url.html5="%SWFPATH%/plugins/videoplayer.js"
+		onloaded="add_video_sources();"
+    />
+
+    <!-- add the video sources and play the video -->
+	<action name="add_video_sources">
+		videointerface_addsource('1920x1080', '%CURRENTXML%/video/Office360.mp4', '%CURRENTXML%/panos/pano.tiles/preview.jpg');
+		
+		videointerface_play('1920x1080');
+	</action>
+
 	<!-- startup action - load the first scene -->
 	<action name="startup" autorun="onstart">
 		showlog(true);
@@ -139,14 +154,21 @@
 		set(hotspot[get(hotspotName)].atv, get(atv));
 		set(hotspot[get(hotspotName)].distorted, "true");
 		set(hotspot[get(hotspotName)].edge, "lefttop");
-		set(hotspot[get(hotspotName)].capture, "false");
+		set(hotspot[get(hotspotName)].capture, "true");
 		set(hotspot[get(hotspotName)].visible, get(visibility));
 		set(hotspot[get(hotspotName)].keep, "true");
 		set(hotspot[get(hotspotName)].scale, "1.0");
 		set(hotspot[get(hotspotName)].width, get(width));
 		set(hotspot[get(hotspotName)].height, get(height));
 		set(hotspot[get(hotspotName)].onloaded, "do_crop_animation(%11, %12, %13)");
+		set(hotspot[get(hotspotName)].onclick, loadscene("videopano"); showHideHotspots("false"));
 	</action>
+
+	<action name="showHideHotspots">
+		set(hotspot["SunsetUI"].visible, %1);
+		set(hotspot["OfficeUI"].visible, %1);
+		set(hotspot["VRUI"].visible, %1);
+	</action>>
 
 	<!--
 		do_crop_animation(framewidth, frameheight, framerate)
@@ -194,4 +216,37 @@
 			<cube url="panos/pano.tiles/mobile/pano_%s.jpg" devices="mobile" />
 		</image>
 	</scene>
+
+	<scene name="videopano" title="krpano Panoramic Video Example">
+
+		<!-- include the videoplayer interface / skin (with VR support) -->
+		<include url="skin/videointerface.xml" />
+
+		<!-- include the videoplayer plugin -->
+		<plugin name="video"
+		        url.html5="%SWFPATH%/plugins/videoplayer.js"
+		        url.flash="%SWFPATH%/plugins/videoplayer.swf"
+		        pausedonstart="true"
+		        loop="true"
+		        volume="1.0"
+		        onloaded="add_video_sources();"
+        />
+
+		<!-- use the videoplayer plugin as panoramic image source -->
+		<image>
+			<sphere url="plugin:video" />
+		</image>
+
+		<!-- set the default view -->
+		<view hlookat="0" vlookat="0" fovtype="DFOV" fov="130" fovmin="75" fovmax="150" distortion="0.0" />
+
+		<!-- add the video sources and play the video -->
+		<action name="add_video_sources">
+			videointerface_addsource('1920x1080', '%CURRENTXML%/video/Office360.mp4', '%CURRENTXML%/panos/pano.tiles/preview.jpg');
+			videointerface_play('1920x1080');
+		</action>
+
+	</scene>
+
+
 </krpano>
