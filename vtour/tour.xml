@@ -62,19 +62,14 @@
 
 	<action name="createGifs">
  		<!-- Set up the sunset GIF -->
-<!-- 		set(originalHotspotName, "SunsetUI");
-		set(imageName, "skin/NewSunset/TIMELAPSE_UI_2_00020.png");
-		createGifHotspots(get(originalHotspotName), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true"); -->
- 
-<!--  		set(hotspotName2, "OtherSunsetUI");
-		createGifHotspots(get(hotspotName2), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true"); -->
+		set(originalHotspotName, "SunsetUI");
+		set(imageName, "skin/NewSunset/SpriteSheet.png");
+		createGifHotspots(get(originalHotspotName), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true", 736, 577, 15);
 
 		<!-- Set up the visit the office GIF -->
-<!-- 		set(officeHotspotName, "OfficeUI");
-		set(officeImageName, "skin/VisitOfficeRedesign/MAIN_UI_00020.png");
-		createGifHotspots(get(officeHotspotName), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true");
-		set(officeHotspotName2, "OfficeUI2");
-		createGifHotspots(get(officeHotspotName2), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true"); -->
+		set(officeHotspotName, "OfficeUI");
+		set(officeImageName, "skin/VisitOfficeRedesign/SpriteSheet.png");
+		createGifHotspots(get(officeHotspotName), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true", 828, 1024, 15);
 
 		<!-- Create the watch us work GIF -->
 		set(vrHotspotName, "VRUI");
@@ -128,7 +123,7 @@
 		set(hotspot[get(hotspotName)].scale, "1.0");
 		set(hotspot[get(hotspotName)].width, get(width));
 		set(hotspot[get(hotspotName)].height, get(height));
-		set(hotspot[get(hotspotName)].onloaded, "do_crop_animation(get(cubeWidth), get(cubeHeight), get(frameRate))");
+		set(hotspot[get(hotspotName)].onloaded, "do_crop_animation(%11, %12, %13)");
 	</action>
 
 	<!--
