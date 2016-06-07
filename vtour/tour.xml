@@ -219,9 +219,6 @@
 
 	<scene name="videopano" title="krpano Panoramic Video Example">
 
-		<!-- include the videoplayer interface / skin (with VR support) -->
-		<include url="skin/videointerface.xml" />
-
 		<!-- include the videoplayer plugin -->
 		<plugin name="video"
 		        url.html5="%SWFPATH%/plugins/videoplayer.js"
@@ -229,6 +226,7 @@
 		        pausedonstart="true"
 		        loop="true"
 		        volume="1.0"
+		        videourl="video/Office360.mp4"
 		        onloaded="add_video_sources();"
         />
 
@@ -242,8 +240,7 @@
 
 		<!-- add the video sources and play the video -->
 		<action name="add_video_sources">
-			videointerface_addsource('1920x1080', '%CURRENTXML%/video/Office360.mp4', '%CURRENTXML%/panos/pano.tiles/preview.jpg');
-			videointerface_play('1920x1080');
+			plugin[video].playvideo();
 		</action>
 
 	</scene>
