@@ -87,7 +87,7 @@
 			txtadd(imageName, get(imageName), ".png");
 			set(scaleFactor, 1);
 		);
-		createGifHotspots("SunsetUI", get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true", calc(736 * scaleFactor), calc(577 * scaleFactor), 15);
+		createGifHotspots("SunsetUI", get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true", calc(736 * scaleFactor), calc(577 * scaleFactor), 15, "scene_sunset360");
 
 		<!-- Set up the visit the office GIF -->
 		set(imageName, "skin/VisitOfficeRedesign/SpriteSheet");
@@ -99,7 +99,7 @@
 			txtadd(imageName, get(imageName), ".png");
 			set(scaleFactor, 1);
 		);
-		createGifHotspots("OfficeUI", get(imageName), 100, 620, 372, 460, 1536, 0, 0, "true", calc(828 * scaleFactor), calc(1024 * scaleFactor), 15);
+		createGifHotspots("OfficeUI", get(imageName), 100, 620, 372, 460, 1536, 0, 0, "true", calc(828 * scaleFactor), calc(1024 * scaleFactor), 15, "scene_office360");
 
 		<!-- Create the watch us work GIF -->
 		set(imageName, "skin/NewVR/SpriteSheet");
@@ -111,7 +111,7 @@
 			txtadd(imageName, get(imageName), ".png");
 			set(scaleFactor, 1);
 		);
-		createGifHotspots("VRUI", get(imageName), -200, 860, 600, 600, 1536, 180, 0, "true", calc(600 * scaleFactor), calc(600 * scaleFactor), 15);
+		createGifHotspots("VRUI", get(imageName), -200, 860, 600, 600, 1536, 180, 0, "true", calc(600 * scaleFactor), calc(600 * scaleFactor), 15, "scene_watchUsWork360");
 	</action>
 
 	<action name="createGifHotspots">
@@ -161,7 +161,7 @@
 		set(hotspot[get(hotspotName)].width, get(width));
 		set(hotspot[get(hotspotName)].height, get(height));
 		set(hotspot[get(hotspotName)].onloaded, "do_crop_animation(%11, %12, %13)");
-		set(hotspot[get(hotspotName)].onclick, loadscene("videopano"); showHideHotspots("false"));
+		set(hotspot[get(hotspotName)].onclick, loadscene(%14); showHideHotspots("false"));
 	</action>
 
 	<action name="showHideHotspots">
@@ -205,7 +205,7 @@
 		  );
 	</action>
 	
-	<scene name="scene_pano" title="pano" onstart="" thumburl="panos/pano.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_pano" title="pano" onstart="showHideHotspots('true')" thumburl="panos/pano.tiles/thumb.jpg" lat="" lng="" heading="">
 		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/pano.tiles/preview.jpg" />
@@ -217,8 +217,9 @@
 		</image>
 	</scene>
 
-	<scene name="videopano" title="krpano Panoramic Video Example">
-
+	<scene name="scene_office360" title="Office 360 Video">
+		<!-- set the default view -->
+		<view hlookat="0" vlookat="0" fovtype="DFOV" fov="130" fovmin="75" fovmax="150" distortion="0.0" />
 		<!-- include the videoplayer plugin -->
 		<plugin name="video"
 		        url.html5="%SWFPATH%/plugins/videoplayer.js"
@@ -227,23 +228,52 @@
 		        loop="true"
 		        volume="1.0"
 		        videourl="video/Office360.mp4"
-		        onloaded="add_video_sources();"
+		        onloaded="playvideo();"
         />
 
 		<!-- use the videoplayer plugin as panoramic image source -->
 		<image>
 			<sphere url="plugin:video" />
 		</image>
-
-		<!-- set the default view -->
-		<view hlookat="0" vlookat="0" fovtype="DFOV" fov="130" fovmin="75" fovmax="150" distortion="0.0" />
-
-		<!-- add the video sources and play the video -->
-		<action name="add_video_sources">
-			plugin[video].playvideo();
-		</action>
-
 	</scene>
 
+	<scene name="scene_watchUsWork360" title="Watch us work 360 video">
+		<!-- set the default view -->
+		<view hlookat="0" vlookat="0" fovtype="DFOV" fov="130" fovmin="75" fovmax="150" distortion="0.0" />
+		<!-- include the videoplayer plugin -->
+		<plugin name="video"
+		        url.html5="%SWFPATH%/plugins/videoplayer.js"
+		        url.flash="%SWFPATH%/plugins/videoplayer.swf"
+		        pausedonstart="true"
+		        loop="true"
+		        volume="1.0"
+		        videourl="video/ProjectorDemonstration.mp4"
+		        onloaded="playvideo();"
+        />
 
+		<!-- use the videoplayer plugin as panoramic image source -->
+		<image>
+			<sphere url="plugin:video" />
+		</image>
+	</scene>
+
+	<scene name="scene_sunset360" title="Santa Monica Pier 360 video">
+		<!-- set the default view -->
+		<view hlookat="0" vlookat="0" fovtype="DFOV" fov="130" fovmin="75" fovmax="150" distortion="0.0" />
+		<!-- include the videoplayer plugin -->
+		<plugin name="video"
+		        url.html5="%SWFPATH%/plugins/videoplayer.js"
+		        url.flash="%SWFPATH%/plugins/videoplayer.swf"
+		        pausedonstart="true"
+		        loop="true"
+		        volume="1.0"
+		        videourl="video/SantaMonica.mp4"
+		        onloaded="playvideo();"
+        />
+
+		<!-- use the videoplayer plugin as panoramic image source -->
+		<image>
+			<sphere url="plugin:video" />
+		</image>
+	</scene>
 </krpano>
