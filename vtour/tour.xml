@@ -62,19 +62,41 @@
 
 	<action name="createGifs">
  		<!-- Set up the sunset GIF -->
-		set(originalHotspotName, "SunsetUI");
-		set(imageName, "skin/NewSunset/SpriteSheet.png");
-		createGifHotspots(get(originalHotspotName), get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true", 736, 577, 15);
+ 		set(scaleFactor, 1);
+		set(imageName, "skin/NewSunset/SpriteSheet");
+		if (device.mobile
+			,
+			txtadd(imageName, get(imageName), "Mobile.png");
+			set(scaleFactor, .75);
+			,
+			txtadd(imageName, get(imageName), ".png");
+			set(scaleFactor, 1);
+		);
+		createGifHotspots("SunsetUI", get(imageName), 460, 260, 736, 650, 1536, 0, 0, "true", calc(736 * scaleFactor), calc(577 * scaleFactor), 15);
 
 		<!-- Set up the visit the office GIF -->
-		set(officeHotspotName, "OfficeUI");
-		set(officeImageName, "skin/VisitOfficeRedesign/SpriteSheet.png");
-		createGifHotspots(get(officeHotspotName), get(officeImageName), 100, 620, 372, 460, 1536, 0, 0, "true", 828, 1024, 15);
+		set(imageName, "skin/VisitOfficeRedesign/SpriteSheet");
+		if (device.mobile
+			,
+			txtadd(imageName, get(imageName), "Mobile.png");
+			set(scaleFactor, .35);
+			,
+			txtadd(imageName, get(imageName), ".png");
+			set(scaleFactor, 1);
+		);
+		createGifHotspots("OfficeUI", get(imageName), 100, 620, 372, 460, 1536, 0, 0, "true", calc(828 * scaleFactor), calc(1024 * scaleFactor), 15);
 
 		<!-- Create the watch us work GIF -->
-		set(vrHotspotName, "VRUI");
-		set(vrImageName, "skin/NewVR/SpriteSheet.png");
-		createGifHotspots(get(vrHotspotName), get(vrImageName), -200, 860, 600, 600, 1536, 180, 0, "true", 600, 600, 15);
+		set(imageName, "skin/NewVR/SpriteSheet");
+		if (device.mobile
+			,
+			txtadd(imageName, get(imageName), "Mobile.png");
+			set(scaleFactor, .9);
+			,
+			txtadd(imageName, get(imageName), ".png");
+			set(scaleFactor, 1);
+		);
+		createGifHotspots("VRUI", get(imageName), -200, 860, 600, 600, 1536, 180, 0, "true", calc(600 * scaleFactor), calc(600 * scaleFactor), 15);
 	</action>
 
 	<action name="createGifHotspots">
