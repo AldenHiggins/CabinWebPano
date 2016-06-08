@@ -1,4 +1,4 @@
-﻿<krpano version="1.19" title="Virtual Tour">
+﻿<krpano version="1.19" title="Kilograph Cabin">
 	<include url="skin/vtourskin.xml" />
 
 	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
@@ -51,24 +51,9 @@
 		design_text_shadow="1"
     />
 
-	<!-- videourl="video/Office360.mp4" -->
-    <plugin 
-		name="video"
-		url.flash="%SWFPATH%/plugins/videoplayer.swf"
-		url.html5="%SWFPATH%/plugins/videoplayer.js"
-		onloaded="add_video_sources();"
-    />
-
-    <!-- add the video sources and play the video -->
-	<action name="add_video_sources">
-		videointerface_addsource('1920x1080', '%CURRENTXML%/video/Office360.mp4', '%CURRENTXML%/panos/pano.tiles/preview.jpg');
-		
-		videointerface_play('1920x1080');
-	</action>
-
 	<!-- startup action - load the first scene -->
 	<action name="startup" autorun="onstart">
-		showlog(true);
+		<!-- showlog(true); -->
 		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
 		loadscene(get(startscene), null, MERGE);
 		if(startactions !== null, startactions() );
@@ -205,7 +190,7 @@
 		  );
 	</action>
 	
-	<scene name="scene_pano" title="pano" onstart="showHideHotspots('true')" thumburl="panos/pano.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_pano" title="Cabin" onstart="showHideHotspots('true')" thumburl="panos/pano.tiles/thumb.jpg" lat="" lng="" heading="">
 		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/pano.tiles/preview.jpg" />
